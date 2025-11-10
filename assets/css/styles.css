@@ -90,6 +90,14 @@ p {
   margin-bottom: 1rem;
 }
 
+img {
+  background-color: #222;
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+}
+
 /* ==============================
    BUTTONS
 ============================== */
