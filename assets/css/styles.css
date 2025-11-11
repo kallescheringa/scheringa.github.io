@@ -213,25 +213,77 @@ footer {
 /* Footer section */
 
 .footer {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  padding: 3rem 2rem;
-  margin: 0rem 1rem;         /* center container */
-  max-width: 100%;           /* ✅ prevent overflow */
-  box-sizing: border-box;    /* ensure padding doesn’t add extra width */
+  background-color: #faf7ef;     /* zachte beige tint */
+  color: #1a1a1a;
+  padding: 2rem 3rem;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  font-family: 'Arial', sans-serif;
 }
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;               /* ✅ responsive */
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
 
 .footer-links {
-
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
-.footer-socials {
+.footer-links a {
+  text-decoration: none;
+  color: #1a1a1a;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
 
+.footer-links a:hover {
+  color: #008c3a; /* jouw groene Revoloop-kleur */
+}
+
+.footer-social {
+  text-align: right;
+}
+
+.footer-social p {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.social-icons a {
+  color: #000;
+  font-size: 1.3rem;
+  margin-left: 0.5rem;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #008c3a; /* groene hoverkleur */
+  transform: translateY(-2px);
 }
 
 .footer-bottom {
-  
+  text-align: left;
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(0,0,0,0.1);
+  padding-top: 1rem;
+}
+
+.footer-bottom a {
+  color: #1a1a1a;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  text-decoration: underline;
 }
 
 /* ==============================
