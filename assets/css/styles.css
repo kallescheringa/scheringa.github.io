@@ -167,6 +167,7 @@ footer {
    UTILITIES
 ============================== */
 
+/* Intro Section */
 .intro {
   background-color: #F5FFF5;
   display: flex;
@@ -207,6 +208,30 @@ footer {
 
 .text-center {
   text-align: center;
+}
+
+/* Footer section */
+
+.footer {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 3rem 2rem;
+  margin: 0rem 1rem;         /* center container */
+  max-width: 100%;           /* ✅ prevent overflow */
+  box-sizing: border-box;    /* ensure padding doesn’t add extra width */
+}
+
+.footer-links {
+
+}
+
+.footer-socials {
+
+}
+
+.footer-bottom {
+  
 }
 
 /* ==============================
