@@ -175,7 +175,7 @@ footer {
   align-items: flex-start;
   gap: 1rem;
   padding: 3rem 2rem;
-  margin: 0rem 1rem;         /* center container */
+  margin: 1rem 1rem;         /* center container */
   max-width: 100%;           /* ✅ prevent overflow */
   box-sizing: border-box;    /* ensure padding doesn’t add extra width */
 }
@@ -196,7 +196,7 @@ footer {
   max-width: 400px;          /* set your preferred max size */
   height: auto;
   border-radius: 8px;
-  margin: 0 1rem;            /* spacing */
+  margin: 1 1rem;            /* spacing */
   object-fit: contain;
   flex: 1 1 200px;           /* ✅ allows image to shrink */
 
