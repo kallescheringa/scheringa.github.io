@@ -146,22 +146,47 @@
     ? v.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
     : '—';
 
-  function loadLog() {
-    const log = JSON.parse(localStorage.getItem('revoloopLog') || '[]');
-    const tbody = el('log-body');
-    tbody.innerHTML = '';
-    log.forEach(entry => {
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td>${entry.email || '—'}</td>
-        <td>${entry.weight} kg</td>
-        <td>€${fmt(entry.quality)}/kg</td>
-        <td>€${fmt(entry.credit)}</td>
-        <td>${entry.date}</td>
-      `;
-      tbody.appendChild(row);
-    });
-  }
+  const fakeData = [
+  { email: "John.Pork@example.com", weight: 25, quality: 0.50, credit: 25*0.50*1.2, date: "2025-11-10" },
+  { email: "Tim.Cheese@example.com", weight: 18, quality: 1.00, credit: 18*1.00*1.2, date: "2025-11-08" },
+  { email: "Kippen.Rijder@example.com", weight: 32, quality: 0.20, credit: 32*0.20*1.2, date: "2025-11-07" },
+  { email: "Hooog.Riddaahh@example.com", weight: 12, quality: 0.50, credit: 12*0.50*1.2, date: "2025-11-05" },
+  { email: "Absolute.Bioscoop@example.com", weight: 40, quality: 1.00, credit: 40*1.00*1.2, date: "2025-11-01" }
+];
+
+function loadLog() {
+  const log = JSON.parse(localStorage.getItem('revoloopLog') || '[]');
+  const tbody = el('log-body');
+  tbody.innerHTML = '';
+
+  // 1️⃣ Toon nieuwe berekeningen bovenaan
+  log.forEach(entry => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${entry.email || '—'}</td>
+      <td>${entry.weight} kg</td>
+      <td>€${fmt(entry.quality)}/kg</td>
+      <td>€${fmt(entry.credit)}</td>
+      <td>${entry.date}</td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  // 2️⃣ Toon altijd de fake data **onder de echte berekeningen**
+  fakeData.forEach(entry => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${entry.email}</td>
+      <td>${entry.weight} kg</td>
+      <td>€${fmt(entry.quality)}/kg</td>
+      <td>€${fmt(entry.credit)}</td>
+      <td>${entry.date}</td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+
 
   function saveLog(entry) {
     const log = JSON.parse(localStorage.getItem('revoloopLog') || '[]');
