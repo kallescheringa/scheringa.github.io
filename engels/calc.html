@@ -118,6 +118,14 @@
       <option value="1.00">Sorted & clean (highest value - €1.00/kg)</option>
     </select>
 
+    <label for="customer">Customer Type</label>
+      <select id="customer">
+        <option value="Individual" selected>Individual</option>
+        <option value="Makerspace">Makerspace</option>
+        <option value="Other">Other</option>
+      </select>
+
+
     <button type="button" id="calc">Calculate Store Credit</button>
   </form>
 
@@ -134,6 +142,7 @@
     <thead>
       <tr>
         <th>Email</th>
+        <th>Customer</th>
         <th>Kilograms</th>
         <th>Quality</th>
         <th>Credit</th>
@@ -153,11 +162,11 @@ const fmt = v => Number.isFinite(v)
   : '—';
 
 const fakeData = [
-  { email: "John.Pork@example.com", weight: 25, quality: 0.50, credit: 25*0.50*1.2, date: "2025-11-10" },
-  { email: "Tim.Cheese@example.com", weight: 18, quality: 1.00, credit: 18*1.00*1.2, date: "2025-11-08" },
-  { email: "Kippen.Rijder@example.com", weight: 32, quality: 0.20, credit: 32*0.20*1.2, date: "2025-11-07" },
-  { email: "Hooog.Riddaahh@example.com", weight: 12, quality: 0.50, credit: 12*0.50*1.2, date: "2025-11-05" },
-  { email: "Absolute.Bioscoop@example.com", weight: 40, quality: 1.00, credit: 40*1.00*1.2, date: "2025-11-01" }
+  { email: "John.Pork@example.com", customer: "Individual", weight: 25, quality: 0.50, credit: 25*0.50*1.2, date: "2025-11-10" },
+  { email: "Tim.Cheese@example.com", customer: "Makerspace", weight: 18, quality: 1.00, credit: 18*1.00*1.2, date: "2025-11-08" },
+  { email: "Kippen.Rijder@example.com", customer: "Other", weight: 32, quality: 0.20, credit: 32*0.20*1.2, date: "2025-11-07" },
+  { email: "Hooog.Riddaahh@example.com", customer: "Makerspace", weight: 12, quality: 0.50, credit: 12*0.50*1.2, date: "2025-11-05" },
+  { email: "Absolute.Bioscoop@example.com", customer: "Individual", weight: 40, quality: 1.00, credit: 40*1.00*1.2, date: "2025-11-01" }
 ];
 
 function loadLog() {
@@ -165,11 +174,12 @@ function loadLog() {
   const tbody = el('log-body');
   tbody.innerHTML = '';
 
-  // 1️⃣ Toon nieuwe berekeningen bovenaan
+  // 1️⃣ Nieuwe berekeningen bovenaan
   log.forEach(entry => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${entry.email || '—'}</td>
+      <td>${entry.customer}</td>
       <td>${entry.weight} kg</td>
       <td>€${fmt(entry.quality)}/kg</td>
       <td>€${fmt(entry.credit)}</td>
@@ -178,11 +188,12 @@ function loadLog() {
     tbody.appendChild(row);
   });
 
-  // 2️⃣ Toon altijd de fake data **onder de echte berekeningen**
+  // 2️⃣ Fake data onderaan
   fakeData.forEach(entry => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${entry.email}</td>
+      <td>${entry.customer}</td>
       <td>${entry.weight} kg</td>
       <td>€${fmt(entry.quality)}/kg</td>
       <td>€${fmt(entry.credit)}</td>
@@ -191,8 +202,6 @@ function loadLog() {
     tbody.appendChild(row);
   });
 }
-
-
 
 function saveLog(entry) {
   const log = JSON.parse(localStorage.getItem('revoloopLog') || '[]');
@@ -203,6 +212,7 @@ function saveLog(entry) {
 function calculate() {
   const weight = parseFloat(el('weight').value) || 0;
   const value = parseFloat(el('quality').value) || 0;
+  const customer = el('customer').value || 'Individual';
   const factor = 1.2;
   const credit = weight * value * factor;
   const email = el('email').value.trim();
@@ -213,19 +223,20 @@ function calculate() {
   el('note').textContent = `${weight.toFixed(2)} kg × €${value.toFixed(2)}/kg × 1.2 incentive`;
   el('result').style.display = 'block';
 
-  // save to log
-  const entry = { email, weight, quality: value, credit, date };
+  const entry = { email, weight, quality: value, credit, customer, date };
   saveLog(entry);
   loadLog();
 }
 
+// Event listener
 el('calc').addEventListener('click', () => {
   calculate();
   el('credit').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 250 });
 });
 
-// Load log on startup
+// Initial load
 loadLog();
+
 </script>
 
 </body>

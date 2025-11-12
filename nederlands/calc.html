@@ -7,10 +7,10 @@
     />
     <link rel="stylesheet" href="../assets/css/calc.css">
     <meta charset="UTF-8">
-    <title>calc (short for calculator)</title>
+    <title>Revoloop Credit Calculator</title>
 </head>
 
-  <style>
+<style>
     body {
       font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
       background: #f5fff5;
@@ -60,9 +60,10 @@
       background: rgba(255, 255, 255, 0.7);
       padding: 1rem;
       border-radius: 10px;
-      max-width: 600px;
+      max-width: 800px;
       margin-left: auto;
       margin-right: auto;
+      overflow-x: auto;
     }
 
     #log table {
@@ -79,8 +80,7 @@
       background: rgba(0, 100, 0, 0.1);
       color: #006400;
     }
-  </style>
-</head>
+</style>
 
 <body>
 
@@ -88,7 +88,7 @@
   <nav>
     <ul>
       <li><a href="index.html">Home</a></li>
-      <li><a href="shop.html">Shop</a></li>
+      <li><a href="shop.html">Winkel</a></li>
       <li><a href="about.html">Over Ons</a></li>
       <li><a href="services.html">Diensten</a></li>
       <li><a href="contact.html">Contact</a></li>
@@ -96,29 +96,36 @@
   </nav>
 
   <div class="translate-btn">
-      <button onclick="location.href='../engels/calc.html'">🌐 NL / EN</button>
+      <button onclick="location.href='../english/calc.html'">🌐 NL / EN</button>
   </div>
 </header>
 
 <section id="pla-calculator">
-  <h2>Bereken je Store Credit</h2>
-  <p>Lever je PLA-afval in en ontdek direct hoeveel store credit je verdient.</p>
+  <h2>Bereken je winkeltegoed</h2>
+  <p>Lever je PLA-afval in en zie direct hoeveel winkeltegoed je ontvangt.</p>
 
   <form id="calc-form">
     <label for="email">E-mailadres (optioneel)</label>
-    <input id="email" type="email" placeholder="jij@example.com" />
+    <input id="email" type="email" placeholder="jij@voorbeeld.com" />
 
-    <label for="weight">Hoeveel kilo PLA lever je in?</label>
+    <label for="weight">Aantal kilogram PLA dat je inlevert</label>
     <input id="weight" type="number" min="0" step="0.01" value="1" required />
 
-    <label for="quality">In welke staat is het materiaal?</label>
+    <label for="quality">Conditie van het materiaal</label>
     <select id="quality">
       <option value="0.20">Gemengd / vervuild (laagste waarde - €0,20/kg)</option>
-      <option value="0.50" selected>Schoon (gemiddeld - €0,50/kg)</option>
+      <option value="0.50" selected>Rein (gemiddeld - €0,50/kg)</option>
       <option value="1.00">Gesorteerd & schoon (hoogste waarde - €1,00/kg)</option>
     </select>
 
-    <button type="button" id="calc">Bereken Store Credit</button>
+    <label for="customer">Type klant</label>
+    <select id="customer">
+        <option value="Individu" selected>Individu</option>
+        <option value="Makerspace">Makerspace</option>
+        <option value="Overig">Overig</option>
+    </select>
+
+    <button type="button" id="calc">Bereken winkeltegoed</button>
   </form>
 
   <div id="result" style="display:none; margin-top:1.5rem;">
@@ -129,70 +136,36 @@
 </section>
 
 <section id="log">
-  <h3>Berekeningsgeschiedenis</h3>
+  <h3>Berekeninggeschiedenis</h3>
   <table>
     <thead>
       <tr>
         <th>E-mail</th>
-        <th>Kilo’s</th>
-        <th>Kwaliteit</th>
-        <th>Credit</th>
+        <th>Klanttype</th>
+        <th>Kilogram</th>
+        <th>Conditie</th>
+        <th>Winkeltegoed</th>
         <th>Datum</th>
       </tr>
     </thead>
     <tbody id="log-body">
-      <tr>
-        <td>John.Pork@example.com</td>
-        <td>25</td>
-        <td>€0.50/kg</td>
-        <td>€12.50</td>
-        <td>2025-11-10</td>
-      </tr>
-      <tr>
-        <td>Tim.Cheese@example.com</td>
-        <td>18</td>
-        <td>€1.00/kg</td>
-        <td>€18.00</td>
-        <td>2025-11-08</td>
-      </tr>
-      <tr>
-        <td>Kippen.Rijder@example.com</td>
-        <td>32</td>
-        <td>€0.20/kg</td>
-        <td>€6.40</td>
-        <td>2025-11-07</td>
-      </tr>
-      <tr>
-        <td>Hooog.Riddaahh@example.com</td>
-        <td>12</td>
-        <td>€0.50/kg</td>
-        <td>€6.00</td>
-        <td>2025-11-05</td>
-      </tr>
-      <tr>
-        <td>Absolute.Bioscoop@example.com</td>
-        <td>40</td>
-        <td>€1.00/kg</td>
-        <td>€40.00</td>
-        <td>2025-11-01</td>
-      </tr>
+      <!-- Rijen worden via JavaScript geladen -->
     </tbody>
   </table>
 </section>
 
-
 <script>
-  const el = id => document.getElementById(id);
-  const fmt = v => Number.isFinite(v)
-    ? v.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-    : '—';
+const el = id => document.getElementById(id);
+const fmt = v => Number.isFinite(v)
+  ? v.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  : '—';
 
-  const fakeData = [
-  { email: "John.Pork@example.com", weight: 25, quality: 0.50, credit: 25*0.50*1.2, date: "2025-11-10" },
-  { email: "Tim.Cheese@example.com", weight: 18, quality: 1.00, credit: 18*1.00*1.2, date: "2025-11-08" },
-  { email: "Kippen.Rijder@example.com", weight: 32, quality: 0.20, credit: 32*0.20*1.2, date: "2025-11-07" },
-  { email: "Hooog.Riddaahh@example.com", weight: 12, quality: 0.50, credit: 12*0.50*1.2, date: "2025-11-05" },
-  { email: "Absolute.Bioscoop@example.com", weight: 40, quality: 1.00, credit: 40*1.00*1.2, date: "2025-11-01" }
+const fakeData = [
+  { email: "John.Pork@voorbeeld.com", customer: "Individu", weight: 25, quality: 0.50, credit: 25*0.50*1.2, date: "2025-11-10" },
+  { email: "Tim.Cheese@voorbeeld.com", customer: "Makerspace", weight: 18, quality: 1.00, credit: 18*1.00*1.2, date: "2025-11-08" },
+  { email: "Kippen.Rijder@voorbeeld.com", customer: "Overig", weight: 32, quality: 0.20, credit: 32*0.20*1.2, date: "2025-11-07" },
+  { email: "Hooog.Riddaahh@voorbeeld.com", customer: "Makerspace", weight: 12, quality: 0.50, credit: 12*0.50*1.2, date: "2025-11-05" },
+  { email: "Absolute.Bioscoop@voorbeeld.com", customer: "Individu", weight: 40, quality: 1.00, credit: 40*1.00*1.2, date: "2025-11-01" }
 ];
 
 function loadLog() {
@@ -200,11 +173,12 @@ function loadLog() {
   const tbody = el('log-body');
   tbody.innerHTML = '';
 
-  // 1️⃣ Toon nieuwe berekeningen bovenaan
+  // 1️⃣ Nieuwe berekeningen bovenaan
   log.forEach(entry => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${entry.email || '—'}</td>
+      <td>${entry.customer}</td>
       <td>${entry.weight} kg</td>
       <td>€${fmt(entry.quality)}/kg</td>
       <td>€${fmt(entry.credit)}</td>
@@ -213,11 +187,12 @@ function loadLog() {
     tbody.appendChild(row);
   });
 
-  // 2️⃣ Toon altijd de fake data **onder de echte berekeningen**
+  // 2️⃣ Fake data onderaan
   fakeData.forEach(entry => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${entry.email}</td>
+      <td>${entry.customer}</td>
       <td>${entry.weight} kg</td>
       <td>€${fmt(entry.quality)}/kg</td>
       <td>€${fmt(entry.credit)}</td>
@@ -227,40 +202,40 @@ function loadLog() {
   });
 }
 
+function saveLog(entry) {
+  const log = JSON.parse(localStorage.getItem('revoloopLog') || '[]');
+  log.unshift(entry); // nieuwste bovenaan
+  localStorage.setItem('revoloopLog', JSON.stringify(log));
+}
 
+function calculate() {
+  const weight = parseFloat(el('weight').value) || 0;
+  const value = parseFloat(el('quality').value) || 0;
+  const customer = el('customer').value || 'Individu';
+  const factor = 1.2;
+  const credit = weight * value * factor;
+  const email = el('email').value.trim();
+  const date = new Date().toLocaleString('nl-NL');
 
-  function saveLog(entry) {
-    const log = JSON.parse(localStorage.getItem('revoloopLog') || '[]');
-    log.unshift(entry); // nieuwste bovenaan
-    localStorage.setItem('revoloopLog', JSON.stringify(log));
-  }
+  // resultaat updaten
+  el('credit').textContent = '€ ' + fmt(credit);
+  el('note').textContent = `${weight.toFixed(2)} kg × €${value.toFixed(2)}/kg × 1,2 incentive`;
+  el('result').style.display = 'block';
 
-  function calculate() {
-    const weight = parseFloat(el('weight').value) || 0;
-    const value = parseFloat(el('quality').value) || 0;
-    const factor = 1.2;
-    const credit = weight * value * factor;
-    const email = el('email').value.trim();
-    const date = new Date().toLocaleString('nl-NL');
-
-    // update resultaat
-    el('credit').textContent = '€ ' + fmt(credit);
-    el('note').textContent = `${weight.toFixed(2)} kg × €${value.toFixed(2)}/kg × 1.2 stimulans`;
-    el('result').style.display = 'block';
-
-    // opslaan in log
-    const entry = { email, weight, quality: value, credit, date };
-    saveLog(entry);
-    loadLog();
-  }
-
-  el('calc').addEventListener('click', () => {
-    calculate();
-    el('credit').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 250 });
-  });
-
-  // Laad log bij opstart
+  const entry = { email, weight, quality: value, credit, customer, date };
+  saveLog(entry);
   loadLog();
+}
+
+// Event listener
+el('calc').addEventListener('click', () => {
+  calculate();
+  el('credit').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 250 });
+});
+
+// Initial load
+loadLog();
 </script>
+
 </body>
 </html>
