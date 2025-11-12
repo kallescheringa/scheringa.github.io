@@ -521,3 +521,33 @@ section {
     align-items: center;
   }
 }
+
+/* ==============================
+   TRANSLATE BUTTON
+============================== */
+.translate-btn {
+  display: flex;
+  align-items: center;
+}
+
+.translate-btn button {
+  background-color: #228B22; /* donkergroen */
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.translate-btn button:hover {
+  background-color: #1a6d1a;
+  transform: scale(1.05);
+}
+
+/* Zorg dat er ruimte tussen de knop en het menu is */
+header {
+  justify-content: space-between;
+  gap: 1rem;
+}
