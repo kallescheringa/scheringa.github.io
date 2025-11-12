@@ -169,13 +169,13 @@ footer {
 
 /* Intro Section */
 .intro {
-  background-color: #F5FFF5;
+  background: rgba(245, 255, 245, 0.9);;
   display: flex;
   flex-wrap: wrap;           /* ✅ let image move below text if needed */
   align-items: flex-start;
   gap: 1rem;
   padding: 3rem 2rem;
-  margin: 0% 1rem;         /* center container */
+  margin: 0% 0rem;         /* center container */
   max-width: 100%;           /* ✅ prevent overflow */
   box-sizing: border-box;    /* ensure padding doesn’t add extra width */
 }
@@ -212,12 +212,13 @@ footer {
 
 .pitch {
   background-color: #b6e3b6;
+  
   display: flex;
   flex-wrap: wrap;           /* ✅ let image move below text if needed */
   align-items: flex-start;
   gap: 1rem;
   padding: 3rem 25%;
-  margin: 0% 1rem;         /* center container */
+  margin: 0% 0rem;         /* center container */
   max-width: 100%;           /* ✅ prevent overflow */
   box-sizing: border-box;    /* ensure padding doesn’t add extra width */
 }
@@ -235,7 +236,7 @@ footer {
 /* Benefits Section */
 
 .benefits {
-  background-color: #F5FFF5;
+  background-color: rgba(245, 255, 245, 0.9);;
   display: flex;
   flex-wrap: wrap;           /* ✅ let image move below text if needed */
   align-items: flex-start;
@@ -365,5 +366,158 @@ footer {
 
   section h2 {
     font-size: 1.5rem;
+  }
+}
+/* ==============================
+   VOORDELEN / HOE HET WERKT / ERVARINGEN (naadloos, met achtergrond zichtbaar)
+============================== */
+
+/* Algemene sectieopmaak */
+section {
+  width: 100%;
+  margin: 0;
+  padding: 4rem 2rem;
+  box-sizing: border-box;
+}
+
+.section-divider {
+  width: 100%;
+  height: 3px;                   /* hoogte van de streep */
+  background-color: #006400;      /* donkergroen */
+}
+
+
+/* --- Voordelen --- */
+.benefits-section {
+  background: rgba(255, 255, 255, 0.8); /* subtiel wit, transparant */
+  text-align: center;
+}
+
+.benefits-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.benefits-container img {
+  width: 100%;
+  max-width: 380px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.benefit-items {
+  flex: 1 1 400px;
+}
+
+.benefit {
+  margin-bottom: 2rem;
+}
+
+.benefit i {
+  font-size: 2rem;
+  color: #228B22;
+  margin-bottom: 0.5rem;
+}
+
+.benefit h3 {
+  color: #006400;
+  margin-bottom: 0.5rem;
+}
+
+.benefit p {
+  color: #333;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+/* --- Hoe werkt het --- */
+.how-it-works {
+  background: rgba(245, 255, 245, 0.9); /* lichtgroen transparant tintje */
+  text-align: center;
+}
+
+.how-it-works h2 {
+  color: #006400;
+  margin-bottom: 2rem;
+}
+
+.steps {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.step {
+  max-width: 220px;
+  text-align: center;
+}
+
+.step .number {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #006400;
+  display: block;
+}
+
+.step i {
+  font-size: 2.5rem;
+  color: #228B22;
+  margin: 1rem 0;
+}
+
+.step h4 {
+  color: #006400;
+  margin-bottom: 0.5rem;
+}
+
+/* --- Ervaringen --- */
+.testimonials {
+  background: rgba(255, 255, 255, 0.85);
+  text-align: center;
+}
+
+.testimonial-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.testimonial {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1.5rem;
+  max-width: 300px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.testimonial p {
+  font-style: italic;
+  color: #333;
+}
+
+.testimonial h5 {
+  color: #006400;
+  margin-top: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.testimonial .role {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .benefits-container, .steps, .testimonial-cards {
+    flex-direction: column;
+    align-items: center;
   }
 }
