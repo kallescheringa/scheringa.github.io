@@ -1,5 +1,3 @@
-<!-- calc is kort voor calculate-->
-
 <!DOCTYPE html> 
 <html lang="nl">
 <head>
@@ -7,9 +5,9 @@
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/calc.css">
     <meta charset="UTF-8">
-    <title>calc (short for calculator)</title>
+    <title>Revoloop</title>
 </head>
 
 <!-- Google tag (gtag.js) -->
@@ -20,4 +18,52 @@
   gtag('js', new Date());
 
   gtag('config', 'G-2848LNQKHS');
+</script>
+
+<section id="pla-calculator">
+  <h2>Bereken je Store Credit</h2>
+  <p>Lever je PLA-afval in en ontdek direct hoeveel store credit je verdient.</p>
+
+  <form id="calc-form">
+    <label for="weight">Hoeveel kilo PLA lever je in?</label>
+    <input id="weight" type="number" min="0" step="0.01" value="1" required />
+
+    <label for="quality">In welke staat is het materiaal?</label>
+    <select id="quality">
+      <option value="0.20">Gemengd / vervuild (laagste waarde - €0,20/kg)</option>
+      <option value="0.50" selected>Schoon (gemiddeld - €0,50/kg)</option>
+      <option value="1.00">Gesorteerd & schoon (hoogste waarde - €1,00/kg)</option>
+    </select>
+
+    <button type="button" id="calc">Bereken Store Credit</button>
+  </form>
+
+  <div id="result" style="display:none; margin-top:1.5rem;">
+    <h3>Je ontvangt:</h3>
+    <p id="credit" style="font-size:1.5rem; font-weight:700; color:#006400;">€ 0,00</p>
+    <p id="note" style="color:#333;">—</p>
+  </div>
+</section>
+
+<script>
+  const el = id => document.getElementById(id);
+  const fmt = v => Number.isFinite(v)
+    ? v.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+    : '—';
+
+  function calculate() {
+    const weight = parseFloat(el('weight').value) || 0;
+    const value = parseFloat(el('quality').value) || 0;
+    const factor = 1.2; // vaste stimulans
+    const credit = weight * value * factor;
+
+    el('credit').textContent = '€ ' + fmt(credit);
+    el('note').textContent = `${weight.toFixed(2)} kg × €${value.toFixed(2)}/kg × 1.2 stimulans`;
+    el('result').style.display = 'block';
+  }
+
+  el('calc').addEventListener('click', () => {
+    calculate();
+    el('credit').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 250 });
+  });
 </script>
