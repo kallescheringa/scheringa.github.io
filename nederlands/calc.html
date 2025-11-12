@@ -1,81 +1,201 @@
-<!DOCTYPE html> 
-<html lang="nl">
-<head>
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    />
-    <link rel="stylesheet" href="../assets/css/calc.css">
-    <meta charset="UTF-8">
-    <title>Revoloop</title>
-</head>
+/* ====================================
+   PLA STORE CREDIT CALCULATOR STYLESHEET
+   Modern, clean, GitHub Pages-proof
+==================================== */
 
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-2848LNQKHS"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+:root {
+  --green: #1abc9c;
+  --dark-green: #006400;
+  --light-green: #b6e3b6;
+  --bg-light: #f5fff5;
+  --text-dark: #222;
+  --muted: #666;
+  --white: #fff;
+  --shadow: 0 4px 16px rgba(0,0,0,0.08);
+  --radius: 12px;
+  --transition: all 0.3s ease;
+}
 
-  gtag('config', 'G-2848LNQKHS');
-</script>
+/* -----------------------------
+   Base Styles
+----------------------------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-<header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="shop.html">Shop</a></li>
-            <li><a href="about.html">Over Ons</a></li>
-            <li><a href="services.html">Diensten</a></li>
-            <li><a href="contact.html">Contact</a></li>
-        </ul>
-    </nav>
-</header>
+body {
+  font-family: "Inter", "Segoe UI", Roboto, Arial, sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-dark);
+  line-height: 1.6;
+  min-height: 100vh;
+}
 
-<section id="pla-calculator">
-  <h2>Bereken je Store Credit</h2>
-  <p>Lever je PLA-afval in en ontdek direct hoeveel store credit je verdient.</p>
+/* -----------------------------
+   Header & Navigation
+----------------------------- */
+header {
+  background: #222;
+  color: #fff;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
 
-  <form id="calc-form">
-    <label for="weight">Hoeveel kilo PLA lever je in?</label>
-    <input id="weight" type="number" min="0" step="0.01" value="1" required />
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
 
-    <label for="quality">In welke staat is het materiaal?</label>
-    <select id="quality">
-      <option value="0.20">Gemengd / vervuild (laagste waarde - €0,20/kg)</option>
-      <option value="0.50" selected>Schoon (gemiddeld - €0,50/kg)</option>
-      <option value="1.00">Gesorteerd & schoon (hoogste waarde - €1,00/kg)</option>
-    </select>
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
 
-    <button type="button" id="calc">Bereken Store Credit</button>
-  </form>
+nav a:hover {
+  color: var(--green);
+}
 
-  <div id="result" style="display:none; margin-top:1.5rem;">
-    <h3>Je ontvangt:</h3>
-    <p id="credit" style="font-size:1.5rem; font-weight:700; color:#006400;">€ 0,00</p>
-    <p id="note" style="color:#333;">—</p>
-  </div>
-</section>
+/* -----------------------------
+   Calculator Wrapper
+----------------------------- */
+#pla-calculator {
+  max-width: 480px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.95); /* fallback for backdrop-filter */
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(0,0,0,0.05);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  text-align: center;
+  transition: var(--transition);
+}
 
-<script>
-  const el = id => document.getElementById(id);
-  const fmt = v => Number.isFinite(v)
-    ? v.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-    : '—';
+#pla-calculator:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+}
 
-  function calculate() {
-    const weight = parseFloat(el('weight').value) || 0;
-    const value = parseFloat(el('quality').value) || 0;
-    const factor = 1.2; // vaste stimulans
-    const credit = weight * value * factor;
+/* -----------------------------
+   Titles & Text
+----------------------------- */
+#pla-calculator h2 {
+  color: var(--dark-green);
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+}
 
-    el('credit').textContent = '€ ' + fmt(credit);
-    el('note').textContent = `${weight.toFixed(2)} kg × €${value.toFixed(2)}/kg × 1.2 stimulans`;
-    el('result').style.display = 'block';
+#pla-calculator p {
+  color: var(--muted);
+  margin-bottom: 1.5rem;
+}
+
+/* -----------------------------
+   Form Elements
+----------------------------- */
+#pla-calculator label {
+  display: block;
+  text-align: left;
+  font-weight: 500;
+  color: var(--text-dark);
+  margin-bottom: 0.4rem;
+}
+
+#pla-calculator input,
+#pla-calculator select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  background-color: #f9fdf9;
+  transition: var(--transition);
+}
+
+#pla-calculator input:focus,
+#pla-calculator select:focus {
+  border-color: var(--green);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(26,188,156,0.15);
+}
+
+#pla-calculator button {
+  width: 100%;
+  background: linear-gradient(90deg, var(--green), #228B22);
+  color: var(--white);
+  border: none;
+  padding: 0.9rem 1.2rem;
+  border-radius: var(--radius);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#pla-calculator button:hover {
+  background: linear-gradient(90deg, #20c997, #1b7f1b);
+  transform: translateY(-1px);
+}
+
+/* -----------------------------
+   Result Area
+----------------------------- */
+#pla-calculator #result {
+  display: none;
+  background-color: #f0fdf4;
+  border-radius: var(--radius);
+  border: 1px solid rgba(0,0,0,0.05);
+  padding: 1.2rem;
+  margin-top: 1.5rem;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.03);
+  animation: fadeIn 0.4s ease;
+}
+
+#pla-calculator #credit {
+  font-size: 2rem;
+  color: var(--dark-green);
+  font-weight: 700;
+  margin: 0.2rem 0;
+}
+
+#pla-calculator #note {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+/* -----------------------------
+   Animations
+----------------------------- */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* -----------------------------
+   Responsive Design
+----------------------------- */
+@media (max-width: 600px) {
+  #pla-calculator {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
   }
 
-  el('calc').addEventListener('click', () => {
-    calculate();
-    el('credit').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 250 });
-  });
-</script>
+  #pla-calculator h2 {
+    font-size: 1.5rem;
+  }
+
+  #pla-calculator button {
+    font-size: 1rem;
+  }
+}
