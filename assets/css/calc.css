@@ -4,7 +4,7 @@
 ==================================== */
 
 :root {
-  --green: #1abc9c;
+  --green: #1abc9c;aa
   --dark-green: #006400;
   --light-green: #b6e3b6;
   --bg-light: #f5fff5;
@@ -73,7 +73,6 @@ nav a:hover {
   padding: 2rem;
   margin: 4rem auto;
   text-align: center;
-  background-color: rgba(255,255,255,0.8);
   backdrop-filter: blur(6px);
   border: 1px solid rgba(0,0,0,0.05);
   transition: var(--transition);
