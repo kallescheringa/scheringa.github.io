@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="nl">
 <head>
     <link
@@ -111,11 +111,11 @@
     <label for="weight">Aantal kilogram PLA dat je inlevert</label>
     <input id="weight" type="number" min="0" step="0.01" value="1" required />
 
-    <label for="quality">Conditie van het materiaal</label>
+    <label for="quality">Conditie van het materiaal (€-waarde per kg)</label>
     <select id="quality">
-      <option value="0.20">Gemengd / vervuild (laagste waarde - €0,20/kg)</option>
-      <option value="0.50" selected>Rein (gemiddeld - €0,50/kg)</option>
-      <option value="1.00">Gesorteerd & schoon (hoogste waarde - €1,00/kg)</option>
+      <option value="0.20">Gemengd / vervuild (€0,20/kg)</option>
+      <option value="0.50" selected>Rein (€0,50/kg)</option>
+      <option value="1.00">Gesorteerd & schoon (€1,00/kg)</option>
     </select>
 
     <label for="customer">Type klant</label>
@@ -125,12 +125,12 @@
         <option value="Overig">Overig</option>
     </select>
 
-    <button type="button" id="calc">Bereken winkeltegoed</button>
+    <button type="button" id="calc">Bereken winkeltegoed (in centen)</button>
   </form>
 
   <div id="result" style="display:none; margin-top:1.5rem;">
     <h3>Je ontvangt:</h3>
-    <p id="credit" style="font-size:1.5rem; font-weight:700; color:#006400;">€ 0,00</p>
+    <p id="credit" style="font-size:1.5rem; font-weight:700; color:#006400;">0</p>
     <p id="note" style="color:#333;">—</p>
   </div>
 </section>
@@ -143,59 +143,34 @@
         <th>E-mail</th>
         <th>Klanttype</th>
         <th>Kilogram</th>
-        <th>Conditie</th>
-        <th>Winkeltegoed</th>
+        <th>Conditiewaarde (cent/kg)</th>
+        <th>Winkeltegoed (cent)</th>
         <th>Datum</th>
       </tr>
     </thead>
-    <tbody id="log-body">
-      <!-- Rijen worden via JavaScript geladen -->
-    </tbody>
+    <tbody id="log-body"></tbody>
   </table>
 </section>
 
 <script>
 const el = id => document.getElementById(id);
 const fmt = v => Number.isFinite(v)
-  ? v.toLocaleString('nl-NL', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  ? v.toLocaleString('nl-NL')
   : '—';
 
-const fakeData = [
-  { email: "John.Pork@voorbeeld.com", customer: "Individu", weight: 25, quality: 0.50, credit: 25*0.50*1.2, date: "2025-11-10" },
-  { email: "Tim.Cheese@voorbeeld.com", customer: "Makerspace", weight: 18, quality: 1.00, credit: 18*1.00*1.2, date: "2025-11-08" },
-  { email: "Kippen.Rijder@voorbeeld.com", customer: "Overig", weight: 32, quality: 0.20, credit: 32*0.20*1.2, date: "2025-11-07" },
-  { email: "Hooog.Riddaahh@voorbeeld.com", customer: "Makerspace", weight: 12, quality: 0.50, credit: 12*0.50*1.2, date: "2025-11-05" },
-  { email: "Absolute.Bioscoop@voorbeeld.com", customer: "Individu", weight: 40, quality: 1.00, credit: 40*1.00*1.2, date: "2025-11-01" }
-];
-
 function loadLog() {
-  const log = JSON.parse(localStorage.getItem('revoloopLog') || '[]');
+  const log = JSON.parse(localStorage.getItem('revoloopLogCent') || '[]');
   const tbody = el('log-body');
   tbody.innerHTML = '';
 
-  // 1️⃣ Nieuwe berekeningen bovenaan
   log.forEach(entry => {
     const row = document.createElement('tr');
     row.innerHTML = `
       <td>${entry.email || '—'}</td>
       <td>${entry.customer}</td>
       <td>${entry.weight} kg</td>
-      <td>€${fmt(entry.quality)}/kg</td>
-      <td>€${fmt(entry.credit)}</td>
-      <td>${entry.date}</td>
-    `;
-    tbody.appendChild(row);
-  });
-
-  // 2️⃣ Fake data onderaan
-  fakeData.forEach(entry => {
-    const row = document.createElement('tr');
-    row.innerHTML = `
-      <td>${entry.email}</td>
-      <td>${entry.customer}</td>
-      <td>${entry.weight} kg</td>
-      <td>€${fmt(entry.quality)}/kg</td>
-      <td>€${fmt(entry.credit)}</td>
+      <td>${fmt(entry.qualityCent)}</td>
+      <td>${fmt(entry.credit)}</td>
       <td>${entry.date}</td>
     `;
     tbody.appendChild(row);
@@ -203,37 +178,45 @@ function loadLog() {
 }
 
 function saveLog(entry) {
-  const log = JSON.parse(localStorage.getItem('revoloopLog') || '[]');
-  log.unshift(entry); // nieuwste bovenaan
-  localStorage.setItem('revoloopLog', JSON.stringify(log));
+  const log = JSON.parse(localStorage.getItem('revoloopLogCent') || '[]');
+  log.unshift(entry);
+  localStorage.setItem('revoloopLogCent', JSON.stringify(log));
 }
 
 function calculate() {
   const weight = parseFloat(el('weight').value) || 0;
-  const value = parseFloat(el('quality').value) || 0;
-  const customer = el('customer').value || 'Individu';
+  const valueEuro = parseFloat(el('quality').value) || 0;
+  const valueCent = Math.round(valueEuro * 100);
+  const customer = el('customer').value;
   const factor = 1.2;
-  const credit = weight * value * factor;
+
+  const credit = Math.round(weight * valueCent * factor);
+
   const email = el('email').value.trim();
   const date = new Date().toLocaleString('nl-NL');
 
-  // resultaat updaten
-  el('credit').textContent = '€ ' + fmt(credit);
-  el('note').textContent = `${weight.toFixed(2)} kg × €${value.toFixed(2)}/kg × 1,2 incentive`;
+  el('credit').textContent = fmt(credit);
+  el('note').textContent = `${weight.toFixed(2)} kg × ${valueCent} cent/kg × 1,2 incentive`;
   el('result').style.display = 'block';
 
-  const entry = { email, weight, quality: value, credit, customer, date };
+  const entry = {
+    email,
+    weight,
+    qualityCent: valueCent,
+    credit,
+    customer,
+    date
+  };
+
   saveLog(entry);
   loadLog();
 }
 
-// Event listener
 el('calc').addEventListener('click', () => {
   calculate();
   el('credit').animate([{ transform: 'scale(1.05)' }, { transform: 'scale(1)' }], { duration: 250 });
 });
 
-// Initial load
 loadLog();
 </script>
 
