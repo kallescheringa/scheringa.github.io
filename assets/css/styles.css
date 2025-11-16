@@ -551,3 +551,30 @@ header {
   justify-content: space-between;
   gap: 1rem;
 }
+
+.points-btn {
+  background-color: #006400;
+  color: #fff;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  display: block;
+  width: 100%;
+}
+
+.points-btn:hover {
+  background-color: #228B22;
+}
+#points-display {
+  position: fixed;
+  top: 80px; /* onder de header */
+  right: 20px;
+  background-color: rgba(0, 100, 0, 0.8);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  z-index: 1000;
+}

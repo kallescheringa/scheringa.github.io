@@ -31,10 +31,223 @@
             </ul>
         </nav>
 
+        <div id="points-display" style="color:white; font-weight:600;">
+            Points: <span id="points-value">0</span>
+        </div>
+
         <div class="translate-btn">
             <button onclick="location.href='../engels/shop.html'">🌐 NL / EN</button>
         </div>
     </header>
 
+    <!-- ==============================
+     HERO / INTRO
+============================== -->
+<section class="intro">
+    <div class="text">
+        <h1>Premium Recycled 3D Printing Filament</h1>
+        <p>High-quality, durable filament made sustainably from recycled materials — perfect for enthusiasts and professionals alike.</p>
+        <a href="#filaments" class="btn">Shop Now</a>
+    </div>
+
+    <img src="../assets/images/revoloop_filament.jpg" alt="3D Filament Spools">
+</section>
+
+
+<!-- ==============================
+     FILTERS
+============================== -->
+<section class="pitch" id="filters" style="text-align:center;">
+    <div class="text">
+        <h2>Browse by Category</h2>
+        <p>Select a material to narrow down your options.</p>
+
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:1.5rem;">
+            <button>PLA</button>
+            <button>PETG</button>
+            <button>ABS</button>
+            <button>Recycled Series</button>
+            <button>Special Colors</button>
+        </div>
+    </div>
+</section>
+
+
+<!-- ==============================
+     PRODUCT GRID
+============================== -->
+<section id="filaments" class="benefits-section">
+    <h2>Our Filaments</h2>
+
+    <div class="benefits-container" style="justify-content:flex-start; gap:2rem;">
+
+        <!-- Product Card -->
+        <div class="testimonial" style="max-width:260px;">
+            <img src="../assets/images/pla-green.jpg" alt="PLA Green Filament">
+            <h3>PLA – Eco Green</h3>
+            <p>1.75mm • 1kg spool</p>
+            <p><strong>€22.99</strong></p>
+            <button>Add to Cart</button>
+            <button class="points-btn" data-points="2300">Buy with 2300 Points</button>
+        </div>
+
+        <!-- Product Card -->
+        <div class="testimonial" style="max-width:260px;">
+            <img src="../assets/images/pla-black.jpeg" alt="PLA Black Filament">
+            <h3>PLA – Deep Black</h3>
+            <p>1.75mm • 1kg spool</p>
+            <p><strong>€21.99</strong></p>
+            <button>Add to Cart</button>
+            <button class="points-btn" data-points="2200">Buy with 2200 Points</button>
+        </div>
+
+        <!-- Product Card -->
+        <div class="testimonial" style="max-width:260px;">
+            <img src="../assets/images/pla-recycled.jpeg" alt="Recycled PLA Filament">
+            <h3>PLA – Recycled Blend</h3>
+            <p>1.75mm • 750g eco-spool</p>
+            <p><strong>€18.99</strong></p>
+            <button>Add to Cart</button>
+            <button class="points-btn" data-points="1900">Buy with 1900 Points</button>
+        </div>
+
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ==============================
+     WHY US
+============================== -->
+<section id="why-us" class="how-it-works">
+    <h2>Why Choose Revoloop?</h2>
+
+    <div class="steps">
+        <div class="step">
+            <span class="number">1</span>
+            <i class="fas fa-recycle"></i>
+            <h4>Sustainable Materials</h4>
+            <p>We recycle plastic waste into premium printing filament.</p>
+        </div>
+
+        <div class="step">
+            <span class="number">2</span>
+            <i class="fas fa-cogs"></i>
+            <h4>Exceptional Quality</h4>
+            <p>High-precision production ensures smooth, reliable prints.</p>
+        </div>
+
+        <div class="step">
+            <span class="number">3</span>
+            <i class="fas fa-leaf"></i>
+            <h4>Eco-Friendly Packaging</h4>
+            <p>Zero-plastic spools and compostable packaging.</p>
+        </div>
+    </div>
+</section>
+
+<div class="section-divider"></div>
+
+
+<!-- ==============================
+     CONTACT / FOOTER
+============================== -->
+<footer class="footer" id="contact">
+    <div class="footer-content">
+        <div>
+            <h3>Revoloop Filaments</h3>
+            <p>Premium recycled filament for hobbyists and professionals.</p>
+        </div>
+
+        <div class="footer-links">
+            <a href="#filaments">Shop Filaments</a>
+            <a href="#why-us">Why Us</a>
+            <a href="#">Shipping Info</a>
+            <a href="#">Returns</a>
+        </div>
+
+        <div class="footer-social">
+            <p>Follow Us</p>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        © 2025 Revoloop — All Rights Reserved
+    </div>
+</footer>
+
 </body>
 </html>
+
+</body>
+</html>
+
+<script>
+// --------------------------
+// POINTS PAYMENT SYSTEM
+// --------------------------
+
+// Starting points balance (set for demo)
+if (!localStorage.getItem("userPoints")) {
+    localStorage.setItem("userPoints", "5000"); // give new users 5000 points
+}
+
+// Update UI display
+function updatePointsDisplay() {
+    document.getElementById("points-value").innerText =
+        localStorage.getItem("userPoints");
+}
+
+updatePointsDisplay();
+
+
+// Handle purchase with points
+document.querySelectorAll(".points-btn").forEach(button => {
+    button.addEventListener("click", () => {
+
+        let cost = parseInt(button.getAttribute("data-points"));
+        let currentPoints = parseInt(localStorage.getItem("userPoints"));
+
+        if (currentPoints >= cost) {
+            let result = confirm(
+                `This item costs ${cost} points.\nDo you want to purchase using points?`
+            );
+
+            if (result) {
+                let newBalance = currentPoints - cost;
+                localStorage.setItem("userPoints", newBalance);
+                updatePointsDisplay();
+
+                alert("Purchase successful! Remaining points: " + newBalance);
+            }
+        } else {
+            alert("Not enough points! Earn more by buying products or special offers.");
+        }
+    });
+});
+
+const filterButtons = document.querySelectorAll("[data-filter]");
+const products = document.querySelectorAll(".testimonial");
+
+filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const filter = btn.getAttribute("data-filter");
+
+        products.forEach(product => {
+            const category = product.getAttribute("data-category");
+
+            if (filter === "all" || category === filter) {
+                product.style.display = "block";
+            } else {
+                product.style.display = "none";
+            }
+        });
+    });
+});
+</script>
