@@ -1,11 +1,10 @@
 <!doctype html>
-<html lang="nl">
+<html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Revoloop — Shop</title>
   <style>
-    /* Simple, self-contained styles so this page runs on GitHub Pages */
     :root{--accent:#2b8a78;--muted:#666}
     body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0;color:#222}
     header{background:#0b6;display:flex;align-items:center;justify-content:space-between;padding:1rem;color:white;background:linear-gradient(90deg,#0b6, #04735a)}
@@ -25,11 +24,9 @@
     .testimonial button{margin-top:.5rem;padding:.4rem .6rem;border-radius:6px;border:1px solid #ddd;background:#f7f7f7;cursor:pointer}
     .testimonial .add-to-cart{background:var(--accent);color:white;border:none}
 
-    /* Floating cart button */
     .cart-fab{position:fixed;right:1rem;bottom:1rem;background:var(--accent);color:white;border-radius:999px;padding:.8rem 1rem;box-shadow:0 10px 30px rgba(0,0,0,.2);display:flex;gap:.6rem;align-items:center;cursor:pointer}
     .cart-fab .count{background:rgba(255,255,255,.15);padding:4px 8px;border-radius:999px;font-weight:700}
 
-    /* Cart modal */
     .modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;padding:1rem}
     .cart-modal{background:white;width:min(900px,96%);max-height:86vh;overflow:auto;border-radius:10px;padding:1rem}
     .cart-item{display:flex;gap:1rem;align-items:center;border-bottom:1px solid #eee;padding:.6rem 0}
@@ -49,7 +46,7 @@
     <ul>
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
-      <li><a href="about.html">Over Ons</a></li>
+      <li><a href="about.html">About Us</a></li>
     </ul>
   </nav>
 
@@ -60,7 +57,7 @@
 <section class="intro">
   <div class="text">
     <h1>Premium Recycled 3D Printing Filament</h1>
-    <p>High-quality, durable filament made sustainably from recycled materials.</p>
+    <p>High-quality, durable filament produced from recycled materials.</p>
     <a href="#filaments" class="btn">Shop Now</a>
   </div>
   <img src="../assets/images/revoloop_filament.jpg" alt="3D Filament Spools">
@@ -70,53 +67,48 @@
   <h2>Our Filaments</h2>
   <div class="benefits-container" id="products">
 
-    <!-- Product Card 1 -->
     <div class="testimonial" data-id="pla-green" data-name="PLA – Eco Green" data-price="11.99" data-image="../assets/images/pla-green.jpg">
       <img src="../assets/images/pla-green.jpg" alt="PLA Green Filament">
       <h3>PLA – Eco Green</h3>
       <p class="small">1.75mm • 1kg spool</p>
       <p><strong>€11.99</strong></p>
       <button class="add-to-cart">Add to Cart</button>
-      <button class="points-btn" data-points="1200">Buy with 1200 Points</button>
     </div>
 
-    <!-- Product Card 2 -->
     <div class="testimonial" data-id="pla-black" data-name="PLA – Deep Black" data-price="11.99" data-image="../assets/images/pla-black.jpeg">
       <img src="../assets/images/pla-black.jpeg" alt="PLA Black Filament">
       <h3>PLA – Deep Black</h3>
       <p class="small">1.75mm • 1kg spool</p>
       <p><strong>€11.99</strong></p>
       <button class="add-to-cart">Add to Cart</button>
-      <button class="points-btn" data-points="1200">Buy with 1200 Points</button>
     </div>
 
-    <!-- Product Card 3 -->
     <div class="testimonial" data-id="pla-recycled" data-name="PLA – Recycled Blend" data-price="11.99" data-image="../assets/images/pla-recycled.jpeg">
       <img src="../assets/images/pla-recycled.jpeg" alt="Recycled PLA Filament">
       <h3>PLA – Recycled Blend</h3>
       <p class="small">1.75mm • 750g eco-spool</p>
       <p><strong>€11.99</strong></p>
       <button class="add-to-cart">Add to Cart</button>
-      <button class="points-btn" data-points="1200">Buy with 1200 Points</button>
     </div>
 
   </div>
 </section>
 
-<!-- Floating cart button -->
 <div class="cart-fab" id="cart-fab" title="Open cart">
   🛒 <span id="cart-count" class="count">0</span>
 </div>
 
-<!-- Cart modal -->
 <div class="modal-backdrop" id="cart-backdrop">
   <div class="cart-modal" role="dialog" aria-modal="true" aria-labelledby="cart-title">
-    <h2 id="cart-title">Je winkelwagen</h2>
+    <h2 id="cart-title">Your Cart</h2>
     <div id="cart-items"></div>
+
     <div class="modal-actions">
-      <div class="small">Totaal: €<span id="cart-total">0.00</span></div>
-      <div>
-        <button id="continue-shopping">Ga door met winkelen</button>
+      <div class="small">Total: €<span id="cart-total">0.00</span></div>
+
+      <div style="display:flex; gap:0.5rem;">
+        <button id="redeem-points">Redeem Points (max 30%)</button>
+        <button id="continue-shopping">Continue Shopping</button>
         <button id="checkout" style="background:var(--accent);color:white;border:none;padding:.6rem 1rem;border-radius:6px;">Checkout</button>
       </div>
     </div>
@@ -128,12 +120,6 @@
 </footer>
 
 <script>
-// --------------------------
-// POINTS + CART SYSTEM
-// Static, client-only — works on GitHub Pages (no server required)
-// --------------------------
-
-// Initialize points for demo users
 if (!localStorage.getItem('userPoints')) {
   localStorage.setItem('userPoints', '5000');
 }
@@ -142,16 +128,11 @@ function updatePointsDisplay(){
 }
 updatePointsDisplay();
 
-// CART helpers
 const CART_KEY = 'shop_cart_v1';
 function loadCart(){
   try{ return JSON.parse(localStorage.getItem(CART_KEY)) || []; }catch(e){ return []; }
 }
 function saveCart(cart){ localStorage.setItem(CART_KEY, JSON.stringify(cart)); renderCartCount(); }
-
-function findProductCardById(id){
-  return document.querySelector(`.testimonial[data-id="${id}"]`);
-}
 
 function addToCartFromCard(card, qty=1){
   const id = card.getAttribute('data-id');
@@ -163,10 +144,9 @@ function addToCartFromCard(card, qty=1){
   if(existing){ existing.qty += qty; }
   else { cart.push({id,name,price,qty,image}); }
   saveCart(cart);
-  alert(name + ' toegevoegd aan winkelwagen');
+  alert(name + ' has been added to your cart');
 }
 
-// Wire add-to-cart buttons
 document.querySelectorAll('.add-to-cart').forEach(btn=>{
   btn.addEventListener('click', e=>{
     const card = e.target.closest('.testimonial');
@@ -174,35 +154,6 @@ document.querySelectorAll('.add-to-cart').forEach(btn=>{
   });
 });
 
-// Points purchase (keeps existing behavior but also records an "order" entry in localStorage)
-document.querySelectorAll('.points-btn').forEach(button => {
-    button.addEventListener('click', () => {
-        let cost = parseInt(button.getAttribute('data-points'));
-        let currentPoints = parseInt(localStorage.getItem('userPoints'));
-
-        if (currentPoints >= cost) {
-            let result = confirm(`This item costs ${cost} points.\nDo you want to purchase using points?`);
-
-            if (result) {
-                let newBalance = currentPoints - cost;
-                localStorage.setItem('userPoints', newBalance);
-                updatePointsDisplay();
-
-                alert('Purchase successful! Remaining points: ' + newBalance);
-
-                // Optional: add to "orders" list for simple record-keeping
-                const card = button.closest('.testimonial');
-                const orderList = JSON.parse(localStorage.getItem('pointOrders') || '[]');
-                orderList.push({id: card.dataset.id, name: card.dataset.name, points: cost, date: new Date().toISOString()});
-                localStorage.setItem('pointOrders', JSON.stringify(orderList));
-            }
-        } else {
-            alert('Not enough points! Earn more by buying products or special offers.');
-        }
-    });
-});
-
-// CART UI (modal)
 const cartFab = document.getElementById('cart-fab');
 const backdrop = document.getElementById('cart-backdrop');
 const cartItemsContainer = document.getElementById('cart-items');
@@ -228,7 +179,12 @@ function closeCart(){ backdrop.style.display = 'none'; }
 function renderCart(){
   const cart = loadCart();
   cartItemsContainer.innerHTML = '';
-  if(cart.length===0){ cartItemsContainer.innerHTML = '<p class="small">Je winkelwagen is leeg.</p>'; cartTotalEl.innerText = '0.00'; renderCartCount(); return; }
+  if(cart.length===0){
+    cartItemsContainer.innerHTML = '<p class="small">Your cart is empty.</p>';
+    cartTotalEl.innerText = '0.00';
+    renderCartCount();
+    return;
+  }
 
   let total = 0;
   cart.forEach(item=>{
@@ -250,7 +206,7 @@ function renderCart(){
           <span style="min-width:28px;text-align:center">${item.qty}</span>
           <button data-action="inc" data-id="${item.id}">+</button>
         </div>
-        <button data-action="remove" data-id="${item.id}">Verwijder</button>
+        <button data-action="remove" data-id="${item.id}">Remove</button>
       </div>
     `;
     cartItemsContainer.appendChild(el);
@@ -260,51 +216,89 @@ function renderCart(){
   renderCartCount();
 }
 
-// Cart quantity handlers (event delegation)
 cartItemsContainer.addEventListener('click', (e)=>{
   const btn = e.target.closest('button');
   if(!btn) return;
   const action = btn.dataset.action;
   const id = btn.dataset.id;
-  if(!action || !id) return;
   let cart = loadCart();
   const idx = cart.findIndex(i=>i.id===id);
   if(idx===-1) return;
+
   if(action==='inc'){ cart[idx].qty += 1; }
   else if(action==='dec'){ cart[idx].qty = Math.max(1, cart[idx].qty - 1); }
   else if(action==='remove'){ cart.splice(idx,1); }
+
   saveCart(cart);
   renderCart();
 });
 
-// Checkout (client-only simulation)
+let discountApplied = false;
+
+document.getElementById('redeem-points').addEventListener('click', () => {
+    if (discountApplied) return alert("You have already redeemed points for this order.");
+
+    let cart = loadCart();
+    if (cart.length === 0) return alert("Your cart is empty.");
+
+    let total = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    let maxDiscount = total * 0.30;
+
+    let userPoints = parseInt(localStorage.getItem('userPoints'));
+    let pointValue = 0.01;
+
+    let maxPointsUsable = Math.min(userPoints, maxDiscount / pointValue);
+    if (maxPointsUsable < 1) return alert("You do not have enough points to redeem.");
+
+    let pointsToUse = Math.floor(maxPointsUsable);
+
+    let confirmUse = confirm(
+        `You can use ${pointsToUse} points for a discount of €${(pointsToUse * pointValue).toFixed(2)}.\nWould you like to apply this discount?`
+    );
+
+    if (!confirmUse) return;
+
+    total = total - (pointsToUse * pointValue);
+    cartTotalEl.innerText = total.toFixed(2);
+
+    let newBalance = userPoints - pointsToUse;
+    localStorage.setItem('userPoints', newBalance);
+    updatePointsDisplay();
+
+    discountApplied = true;
+    alert(`Discount applied! You used ${pointsToUse} points.`);
+});
+
 document.getElementById('checkout').addEventListener('click', ()=>{
   const cart = loadCart();
-  if(cart.length===0){ alert('Je winkelwagen is leeg.'); return; }
+  if(cart.length===0){ alert('Your cart is empty.'); return; }
 
-  // Simple simulated checkout: collect name + address via prompt (since no server)
-  const name = prompt('Vul je naam in voor de bestelling:');
-  if(!name) return alert('Checkout geannuleerd.');
-  const address = prompt('Vul je verzendadres in:');
-  if(!address) return alert('Checkout geannuleerd.');
+  const name = prompt('Enter your name:');
+  if(!name) return alert('Checkout cancelled.');
+  const address = prompt('Enter your shipping address:');
+  if(!address) return alert('Checkout cancelled.');
 
-  // Build a simple order record and store locally (simulate order created)
   const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-  const order = { id: 'ORD-' + Date.now(), name, address, items: cart, total: cart.reduce((s,i)=>s + i.qty*i.price,0), date: new Date().toISOString() };
+  const order = {
+    id: 'ORD-' + Date.now(),
+    name,
+    address,
+    items: cart,
+    total: cart.reduce((s,i)=>s + i.qty*i.price,0),
+    date: new Date().toISOString()
+  };
   orders.push(order);
   localStorage.setItem('orders', JSON.stringify(orders));
 
-  // Clear cart
   saveCart([]);
   renderCart();
-  alert('Bedankt! Je bestelling is geplaatst (simulatie). Order ID: ' + order.id);
+  alert('Thank you! Your order has been placed (simulation). Order ID: ' + order.id);
   closeCart();
 });
 
-// Initial render
 renderCartCount();
 renderCart();
-
 </script>
+
 </body>
 </html>
