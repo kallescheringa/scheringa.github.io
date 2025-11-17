@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Revoloop — Book an Appointment</title>
+<style>
+:root{--accent:#2b8a78;--muted:#666}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,'Helvetica Neue',Arial;margin:0;color:#222;background:#f5fff5}
+header{background:#0b6;display:flex;align-items:center;justify-content:space-between;padding:1rem;color:white;background:linear-gradient(90deg,#0b6,#04735a)}
+header nav ul{list-style:none;padding:0;margin:0;display:flex;gap:1rem}
+header nav a{color:white;text-decoration:none;font-weight:600}
+.translate-btn button{background:transparent;border:1px solid rgba(255,255,255,0.25);color:white;padding:.4rem .6rem;border-radius:6px}
+
+h1,h2{color:#006400;text-align:center;margin-top:2rem}
+p{text-align:center;color:#333}
+form{background:white;padding:1.5rem;max-width:400px;margin:2rem auto;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,.06);display:flex;flex-direction:column;gap:.8rem}
+input,textarea,button{width:100%;padding:.6rem;border-radius:6px;border:1px solid #ccc;font-size:1rem;font-family:inherit}
+textarea{resize:none}
+button{background:var(--accent);color:white;border:none;cursor:pointer;transition:background 0.3s ease}
+button:hover{background:#006400}
+
+@media(max-width:760px){form{margin:1rem}}
+</style>
+</head>
+<body>
+
+<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul>
+  </nav>
+  <div class="translate-btn"><button onclick="location.href='../nederlands/appointment.html'">🌐 EN / NL</button></div>
+</header>
+
+<h1>Book an Appointment</h1>
+<p>Fill in your details to schedule an appointment. Your message will be sent directly.</p>
+
+<form name="appointment" method="POST" data-netlify="true">
+  <!-- Netlify honeypot and form-name -->
+  <input type="hidden" name="form-name" value="appointment">
+
+  <label>Name</label>
+  <input type="text" name="name" placeholder="Your full name" required>
+
+  <label>Email</label>
+  <input type="email" name="email" placeholder="you@example.com" required>
+
+  <label>Address</label>
+  <input type="text" name="address" placeholder="Street, number, ZIP code" required>
+
+  <label>Note (optional)</label>
+  <textarea name="message" rows="4" placeholder="For example, preferred day/time"></textarea>
+
+  <button type="submit">Submit</button>
+</form>
+
+<p style="text-align:center;margin-top:1rem;color:#555;">
+  Submissions are stored directly in Netlify and you will receive a notification by email.
+</p>
+
+</body>
+</html>

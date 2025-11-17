@@ -133,6 +133,10 @@
     <p id="credit" style="font-size:1.5rem; font-weight:700; color:#006400;">0</p>
     <p id="note" style="color:#333;">—</p>
   </div>
+
+  <div id="appointment" style="display:none; margin-top:1rem;">
+    <button id="make-appointment">Maak afspraak</button>
+  </div>
 </section>
 
 <section id="log">
@@ -218,6 +222,92 @@ el('calc').addEventListener('click', () => {
 });
 
 loadLog();
+
+// After calculate() finishes, show appointment button
+function showAppointmentButton() {
+  document.getElementById('appointment').style.display = 'block';
+}
+
+document.getElementById('make-appointment').addEventListener('click', () => {
+  const name = "afspraak_formulier.html";
+
+  // HTML inhoud voor het formulier dat gedownload wordt
+  const formHTML = `
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<title>Afspraak maken</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background:#f5fff5;
+    padding:2rem;
+    text-align:center;
+  }
+  form {
+    background:white;
+    padding:1.5rem;
+    max-width:400px;
+    margin:0 auto;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
+  }
+  input {
+    width:100%;
+    padding:0.6rem;
+    margin-top:0.5rem;
+    border-radius:6px;
+    border:1px solid #ccc;
+  }
+  button {
+    margin-top:1rem;
+    background:#228B22;
+    color:white;
+    border:none;
+    padding:0.8rem;
+    border-radius:8px;
+    cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<h2>Maak een Afspraak</h2>
+<p>Vul je gegevens in en klik op versturen.</p>
+
+<form action="#" method="POST">
+  <label>Naam</label>
+  <input type="text" name="naam" required>
+
+  <label>E-mail</label>
+  <input type="email" name="email" required>
+
+  <label>Adres</label>
+  <input type="text" name="adres" required>
+
+  <button type="submit">Versturen</button>
+</form>
+
+<p style="margin-top:1rem;color:#555;">
+  ⚠️ Voeg hier jouw eigen verzend-URL/API toe.
+</p>
+
+</body>
+</html>`;
+
+  const blob = new Blob([formHTML], { type: "text/html" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = name;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+showAppointmentButton();
+
 </script>
 
 </body>
