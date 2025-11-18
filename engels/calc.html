@@ -43,6 +43,31 @@
       border-bottom: 1px solid #ccc; padding: 0.5rem;
     }
     #log th { background: rgba(0, 100, 0, 0.1); color: #006400; }
+
+    #make-appointment {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  background: #2b8a78;       /* accentkleur */
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  text-decoration: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+  margin-top: 0.5rem;
+}
+
+#make-appointment:hover {
+  background: #04735a;        /* donkerder groen bij hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+}
+
+#make-appointment:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
 </style>
 
 <body>
@@ -97,6 +122,10 @@
     <h3>You will receive:</h3>
     <p id="credit" style="font-size:1.5rem; font-weight:700; color:#006400;">0</p>
     <p id="note" style="color:#333;">—</p>
+  </div>
+
+  <div id="appointment" style="display:none; margin-top:1rem;">
+    <a id="make-appointment" href="appointment.html">Maak afspraak</a>
   </div>
 </section>
 

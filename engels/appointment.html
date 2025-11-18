@@ -41,23 +41,20 @@ button:hover{background:#006400}
 <h1>Book an Appointment</h1>
 <p>Fill in your details to schedule an appointment. Your message will be sent directly.</p>
 
-<form name="appointment" method="POST" data-netlify="true">
-  <!-- Netlify honeypot and form-name -->
-  <input type="hidden" name="form-name" value="appointment">
+<form name="contact" netlify>
+  <p>
+    <label>Name <input type="text" name="name" /></label>
+  </p>
+  <p>
+    <label>Email <input type="email" name="email" /></label>
+  </p>
 
-  <label>Name</label>
-  <input type="text" name="name" placeholder="Your full name" required>
-
-  <label>Email</label>
-  <input type="email" name="email" placeholder="you@example.com" required>
-
-  <label>Address</label>
-  <input type="text" name="address" placeholder="Street, number, ZIP code" required>
-
-  <label>Note (optional)</label>
-  <textarea name="message" rows="4" placeholder="For example, preferred day/time"></textarea>
-
-  <button type="submit">Submit</button>
+  <p>
+    <label>address <input type="text" name="address"/></label>
+  </p>
+  <p>
+    <button type="submit">Send</button>
+  </p>
 </form>
 
 <p style="text-align:center;margin-top:1rem;color:#555;">
