@@ -39,23 +39,20 @@ button:hover{background:#006400}
 <h1>Maak een Afspraak</h1>
 <p>Vul je gegevens in om een afspraak te plannen. Je bericht wordt direct verzonden.</p>
 
-<form name="afspraak" method="POST" data-netlify="true">
-  <!-- Netlify honeypot en form-name -->
-  <input type="hidden" name="form-name" value="afspraak">
+<form name="contact" netlify>
+  <p>
+    <label>Name <input type="text" name="name" /></label>
+  </p>
+  <p>
+    <label>Email <input type="email" name="email" /></label>
+  </p>
 
-  <label>Naam</label>
-  <input type="text" name="naam" placeholder="Je volledige naam" required>
-
-  <label>E-mail</label>
-  <input type="email" name="email" placeholder="jij@voorbeeld.com" required>
-
-  <label>Adres</label>
-  <input type="text" name="adres" placeholder="Straat, huisnummer, postcode" required>
-
-  <label>Opmerking (optioneel)</label>
-  <textarea name="bericht" rows="4" placeholder="Bijvoorbeeld gewenste dag/tijd"></textarea>
-
-  <button type="submit">Versturen</button>
+  <p>
+    <label>address <input type="email" name="email" /></label>
+  </p>
+  <p>
+    <button type="submit">Send</button>
+  </p>
 </form>
 
 <p style="text-align:center;margin-top:1rem;color:#555;">
